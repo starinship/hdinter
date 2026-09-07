@@ -1,21 +1,23 @@
 # hdinter
 
-區網掃描：找出 `172.22.30.1`–`254` 有回應的主機。
+掃描 `172.22.30.1`–`254`，**只輸出有回應（可用）的 IP**，不顯示沒人用的號碼。
 
-## 直接複製（CMD 一行）
+## 直接複製（CMD）
 
 ```bat
-for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" && echo 172.22.30.%i 有人用
+for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul && echo 172.22.30.%i
 ```
 
-也可用純文字檔：[oneliner.txt](oneliner.txt)
+畫面只會一行行跳出可用 IP。
 
 ## 雙擊執行
 
-下載 [scan.bat](scan.bat) 後雙擊（`.bat` 內使用 `%%i`）。
+下載 [scan.bat](scan.bat) 雙擊：
 
-## 說明
+- 過程中只印可用 IP  
+- 結束後再印一次完整清單  
+- 並寫入同目錄 `alive-ips.txt`
 
-- `ping -n 1`：只 ping 一次  
-- `-w 200`：逾時 200 ms  
-- 有 `TTL=` 視為有人用並印出 IP  
+## 網頁
+
+https://starinship.github.io/hdinter/

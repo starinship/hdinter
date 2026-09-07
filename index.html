@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hdinter — 區網掃描</title>
+<title>hdinter — 只列出可用 IP</title>
 <style>
   body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.6}
   pre{background:#0b0e14;color:#e6edf3;padding:14px 16px;border-radius:10px;overflow:auto;white-space:pre-wrap}
@@ -11,17 +11,18 @@
   button:hover{background:#1d4ed8}
   a{color:#2563eb}
   .ok{color:#16a34a;font-size:14px;min-height:1.2em}
+  .note{color:#64748b;font-size:14px}
 </style>
 </head>
 <body>
 <h1>hdinter</h1>
-<p>區網掃描一行指令（CMD 直接貼上）：</p>
-<pre id="cmd">for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" &amp;&amp; echo 172.22.30.%i 有人用</pre>
+<p>只輸出<strong>可用 IP</strong>（有 ping 回應的），不會列出沒人用的號碼。</p>
+<pre id="cmd">for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" &gt;nul &amp;&amp; echo 172.22.30.%i</pre>
 <button type="button" id="copy">複製指令</button>
 <p class="ok" id="status"></p>
-<p>或下載：<a href="scan.bat">scan.bat</a> · <a href="oneliner.txt">oneliner.txt</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
+<p class="note">雙擊版會再寫入 <code>alive-ips.txt</code>：<a href="scan.bat">scan.bat</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
 <script>
-const text = 'for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" && echo 172.22.30.%i 有人用';
+const text = 'for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul && echo 172.22.30.%i';
 document.getElementById('copy').onclick = async () => {
   try {
     await navigator.clipboard.writeText(text);

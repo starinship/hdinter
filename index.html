@@ -7,20 +7,28 @@
 <style>
   body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.6}
   pre{background:#0b0e14;color:#e6edf3;padding:14px 16px;border-radius:10px;overflow:auto;white-space:pre-wrap}
-  button{margin-top:8px;padding:8px 14px;border-radius:8px;border:0;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}
+  button{margin:8px 8px 0 0;padding:8px 14px;border-radius:8px;border:0;background:#2563eb;color:#fff;font-weight:700;cursor:pointer}
   button:hover{background:#1d4ed8}
   a{color:#2563eb}
   .ok{color:#16a34a;font-size:14px;min-height:1.2em}
   .note{color:#64748b;font-size:14px}
+  .box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin:16px 0}
 </style>
 </head>
 <body>
 <h1>hdinter</h1>
-<p>只輸出<strong>無人使用</strong>的 IP（ping 沒回應），方便你拿來設網路上網。<br>有回應＝有人用＝不會列出。</p>
+<p>只列出<strong>沒人用</strong>的 IP。雙擊 <code>scan.bat</code> 約 1 分鐘，同資料夾會產出 <code>free-ips.txt</code>。</p>
+<div class="box">
+  <b>視窗一閃就關掉？</b>
+  <ul>
+    <li>先把檔案存到資料夾再雙擊（不要在瀏覽器／壓縮檔裡直接開）</li>
+    <li>或改用 <a href="scan-keep-open.bat">scan-keep-open.bat</a></li>
+  </ul>
+</div>
 <pre id="cmd">for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" &gt;nul || echo 172.22.30.%i</pre>
-<button type="button" id="copy">複製指令</button>
+<button type="button" id="copy">複製 CMD 指令</button>
 <p class="ok" id="status"></p>
-<p class="note">雙擊版會寫入 <code>free-ips.txt</code>：<a href="scan.bat">scan.bat</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
+<p class="note">下載：<a href="scan.bat">scan.bat</a> · <a href="scan-keep-open.bat">scan-keep-open.bat</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
 <script>
 const text = 'for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul || echo 172.22.30.%i';
 document.getElementById('copy').onclick = async () => {

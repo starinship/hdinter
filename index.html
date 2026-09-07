@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hdinter — 只列出可用 IP</title>
+<title>hdinter — 找出空闲 IP</title>
 <style>
   body{font-family:system-ui,sans-serif;max-width:720px;margin:40px auto;padding:0 16px;line-height:1.6}
   pre{background:#0b0e14;color:#e6edf3;padding:14px 16px;border-radius:10px;overflow:auto;white-space:pre-wrap}
@@ -16,13 +16,13 @@
 </head>
 <body>
 <h1>hdinter</h1>
-<p>只輸出<strong>可用 IP</strong>（有 ping 回應的），不會列出沒人用的號碼。</p>
-<pre id="cmd">for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" &gt;nul &amp;&amp; echo 172.22.30.%i</pre>
+<p>只輸出<strong>無人使用</strong>的 IP（ping 沒回應），方便你拿來設網路上網。<br>有回應＝有人用＝不會列出。</p>
+<pre id="cmd">for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" &gt;nul || echo 172.22.30.%i</pre>
 <button type="button" id="copy">複製指令</button>
 <p class="ok" id="status"></p>
-<p class="note">雙擊版會再寫入 <code>alive-ips.txt</code>：<a href="scan.bat">scan.bat</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
+<p class="note">雙擊版會寫入 <code>free-ips.txt</code>：<a href="scan.bat">scan.bat</a> · <a href="https://github.com/starinship/hdinter">GitHub</a></p>
 <script>
-const text = 'for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul && echo 172.22.30.%i';
+const text = 'for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul || echo 172.22.30.%i';
 document.getElementById('copy').onclick = async () => {
   try {
     await navigator.clipboard.writeText(text);

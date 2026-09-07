@@ -1,1 +1,1 @@
-@echo off & for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul && echo 172.22.30.%i
+for /L %i in (1,1,254) do @ping -n 1 -w 200 172.22.30.%i | find "TTL=" >nul || echo 172.22.30.%i
